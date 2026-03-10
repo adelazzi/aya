@@ -22,10 +22,8 @@
             --paper: #f5f2ec;
             --cream: #ede9df;
             --accent: #c8501a;
-            --accent2: #2a6496;
-            --green: #2a7a4b;
             --muted: #8a8278;
-            --card: #ffffff;
+            --card: #fff;
             --border: #d9d3c7;
         }
 
@@ -67,7 +65,7 @@
             font-size: 0.8rem;
             letter-spacing: 0.12em;
             text-transform: uppercase;
-            color: #666;
+            color: #555;
             text-decoration: none;
             margin-left: 2rem;
             transition: color 0.2s;
@@ -87,10 +85,6 @@
             padding: 3rem 4rem 5rem;
         }
 
-        .dash-header {
-            margin-bottom: 3rem;
-        }
-
         .dash-eyebrow {
             font-family: 'Syne', sans-serif;
             font-size: 0.72rem;
@@ -107,18 +101,18 @@
             font-weight: 800;
             color: var(--paper);
             line-height: 1.05;
+            margin-bottom: 0.4rem;
         }
 
         .dash-sub {
             font-size: 0.9rem;
-            color: #666;
-            margin-top: 0.5rem;
+            color: #555;
+            margin-bottom: 3rem;
         }
 
-        /* KPI CARDS */
         .kpi-row {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(5, 1fr);
             gap: 1.2rem;
             margin-bottom: 2.4rem;
         }
@@ -142,7 +136,7 @@
 
         .kpi-value {
             font-family: 'Syne', sans-serif;
-            font-size: 2.4rem;
+            font-size: 2.2rem;
             font-weight: 800;
             line-height: 1;
             color: var(--paper);
@@ -162,7 +156,10 @@
             color: #4ade80;
         }
 
-        /* GRID LAYOUT */
+        .kpi-red {
+            color: #f87171;
+        }
+
         .charts-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -187,19 +184,21 @@
             font-weight: 700;
             letter-spacing: 0.14em;
             text-transform: uppercase;
-            color: #888;
+            color: #666;
             margin-bottom: 1.4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .no-data-msg {
             text-align: center;
             padding: 3rem 1rem;
-            color: #444;
+            color: #333;
             font-size: 0.9rem;
             font-style: italic;
         }
 
-        /* STAR BAR CHART */
         .star-bars {
             display: flex;
             flex-direction: column;
@@ -243,7 +242,6 @@
             min-width: 28px;
         }
 
-        /* EMOTION DONUT */
         .donut-wrap {
             display: flex;
             align-items: center;
@@ -316,7 +314,114 @@
             color: var(--paper);
         }
 
-        /* REVIEWS TABLE */
+        /* SENTIMENT BAR */
+        .sentiment-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .sent-row {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .sent-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sent-label {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .sent-label.positive {
+            color: #4ade80;
+        }
+
+        .sent-label.negative {
+            color: #f87171;
+        }
+
+        .sent-label.neutral {
+            color: #94a3b8;
+        }
+
+        .sent-count {
+            font-size: 0.75rem;
+            color: #555;
+        }
+
+        .sent-track {
+            height: 12px;
+            background: #222;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .sent-fill {
+            height: 100%;
+            border-radius: 8px;
+            transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            width: 0%;
+        }
+
+        .sent-fill.positive {
+            background: linear-gradient(90deg, #16a34a, #4ade80);
+        }
+
+        .sent-fill.negative {
+            background: linear-gradient(90deg, #b91c1c, #f87171);
+        }
+
+        .sent-fill.neutral {
+            background: linear-gradient(90deg, #475569, #94a3b8);
+        }
+
+        /* TIMELINE */
+        .timeline-bar-row {
+            display: flex;
+            align-items: flex-end;
+            gap: 0.5rem;
+            height: 100px;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-bar-col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 0.3rem;
+        }
+
+        .timeline-bar {
+            width: 100%;
+            max-width: 40px;
+            border-radius: 4px 4px 0 0;
+            background: linear-gradient(180deg, var(--accent), #8a2800);
+            min-height: 4px;
+        }
+
+        .timeline-label {
+            font-size: 0.6rem;
+            color: #444;
+            text-align: center;
+        }
+
+        .timeline-val {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: #666;
+        }
+
+        /* TABLE */
         .reviews-table-wrap {
             overflow-x: auto;
         }
@@ -360,7 +465,13 @@
 
         .td-stars {
             color: #f5a623;
-            letter-spacing: 0.04em;
+        }
+
+        .td-review {
+            max-width: 240px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .emotion-pill {
@@ -370,62 +481,38 @@
             font-size: 0.7rem;
             font-weight: 600;
             font-family: 'Syne', sans-serif;
-            letter-spacing: 0.05em;
         }
 
-        .td-review {
-            max-width: 280px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        /* TREND TIMELINE */
-        .timeline {
-            padding: 0.5rem 0;
-        }
-
-        .timeline-bar-row {
-            display: flex;
-            align-items: flex-end;
-            gap: 0.5rem;
-            height: 100px;
-            margin-bottom: 0.5rem;
-        }
-
-        .timeline-bar-col {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
+        .sent-pill {
+            display: inline-flex;
             align-items: center;
-            justify-content: flex-end;
             gap: 0.3rem;
-        }
-
-        .timeline-bar {
-            width: 100%;
-            max-width: 40px;
-            border-radius: 4px 4px 0 0;
-            background: linear-gradient(180deg, var(--accent), #8a2800);
-            min-height: 4px;
-            transition: height 0.6s ease;
-        }
-
-        .timeline-label {
-            font-size: 0.6rem;
-            color: #444;
-            text-align: center;
-        }
-
-        .timeline-val {
-            font-family: 'Syne', sans-serif;
-            font-size: 0.65rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.68rem;
             font-weight: 700;
-            color: #666;
+            font-family: 'Syne', sans-serif;
+        }
+
+        .sent-pill.positive {
+            background: #16a34a22;
+            color: #4ade80;
+            border: 1px solid #4ade8044;
+        }
+
+        .sent-pill.negative {
+            background: #b91c1c22;
+            color: #f87171;
+            border: 1px solid #f8717144;
+        }
+
+        .sent-pill.neutral {
+            background: #47556922;
+            color: #94a3b8;
+            border: 1px solid #94a3b844;
         }
 
         .refresh-btn {
-            float: right;
             background: none;
             border: 1px solid #333;
             color: #555;
@@ -444,7 +531,7 @@
             color: var(--accent);
         }
 
-        @media (max-width: 900px) {
+        @media (max-width:900px) {
             header {
                 padding: 1.2rem 1.5rem;
             }
@@ -478,187 +565,207 @@
     </header>
 
     <div class="dashboard">
-        <div class="dash-header">
+        <div>
             <p class="dash-eyebrow">Review Analytics</p>
             <h1 class="dash-title">Arcus Pro — Insights</h1>
-            <p class="dash-sub">Live data from customer reviews · Updates automatically</p>
+            <p class="dash-sub">Live data from all customer reviews · Auto-refreshes every 15s</p>
         </div>
 
-        <!-- KPIs -->
         <div class="kpi-row">
             <div class="kpi-card">
                 <div class="kpi-label">Total Reviews</div>
-                <div class="kpi-value" id="kpi-total">0</div>
+                <div class="kpi-value" id="kpi-total">—</div>
                 <div class="kpi-sub">All time</div>
             </div>
             <div class="kpi-card">
-                <div class="kpi-label">Average Rating</div>
+                <div class="kpi-label">Avg Rating</div>
                 <div class="kpi-value kpi-accent" id="kpi-avg">—</div>
-                <div class="kpi-sub" id="kpi-avg-stars">No reviews yet</div>
+                <div class="kpi-sub" id="kpi-avg-stars">—</div>
             </div>
             <div class="kpi-card">
-                <div class="kpi-label">5-Star Reviews</div>
-                <div class="kpi-value kpi-green" id="kpi-5star">0</div>
-                <div class="kpi-sub" id="kpi-5star-pct">—</div>
+                <div class="kpi-label">Positive</div>
+                <div class="kpi-value kpi-green" id="kpi-pos">—</div>
+                <div class="kpi-sub" id="kpi-pos-pct">—</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Negative</div>
+                <div class="kpi-value kpi-red" id="kpi-neg">—</div>
+                <div class="kpi-sub" id="kpi-neg-pct">—</div>
             </div>
             <div class="kpi-card">
                 <div class="kpi-label">Top Feeling</div>
                 <div class="kpi-value" id="kpi-emotion" style="font-size:2rem">—</div>
-                <div class="kpi-sub" id="kpi-emotion-sub">No data</div>
+                <div class="kpi-sub" id="kpi-emotion-sub">—</div>
             </div>
         </div>
 
         <div class="charts-grid">
-            <!-- STAR DISTRIBUTION -->
             <div class="chart-card">
                 <div class="chart-title">Rating Distribution <button class="refresh-btn" onclick="renderAll()">↻
                         Refresh</button></div>
                 <div id="star-chart">
-                    <p class="no-data-msg">No reviews yet</p>
+                    <p class="no-data-msg">Loading…</p>
                 </div>
             </div>
 
-            <!-- EMOTION DONUT -->
             <div class="chart-card">
-                <div class="chart-title">Sentiment Breakdown</div>
-                <div id="emotion-chart">
-                    <p class="no-data-msg">No reviews yet</p>
+                <div class="chart-title">Sentiment Analysis</div>
+                <div id="sentiment-chart">
+                    <p class="no-data-msg">Loading…</p>
                 </div>
             </div>
 
-            <!-- TIMELINE -->
+            <div class="chart-card">
+                <div class="chart-title">Emotion Breakdown</div>
+                <div id="emotion-chart">
+                    <p class="no-data-msg">Loading…</p>
+                </div>
+            </div>
+
             <div class="chart-card">
                 <div class="chart-title">Reviews Timeline</div>
                 <div id="timeline-chart">
-                    <p class="no-data-msg">No reviews yet</p>
+                    <p class="no-data-msg">Loading…</p>
                 </div>
             </div>
 
-            <!-- AVG BY EMOTION -->
-            <div class="chart-card">
-                <div class="chart-title">Avg Rating by Feeling</div>
-                <div id="emotion-avg-chart">
-                    <p class="no-data-msg">No reviews yet</p>
-                </div>
-            </div>
-
-            <!-- REVIEWS TABLE -->
             <div class="chart-card wide">
                 <div class="chart-title">All Reviews</div>
                 <div class="reviews-table-wrap" id="reviews-table">
-                    <p class="no-data-msg">No reviews yet</p>
+                    <p class="no-data-msg">Loading…</p>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        const STORAGE_KEY = 'arcus_pro_reviews';
+        // ─── CONFIG — must match index.html ──────────────────────────
+        const JSONBIN_BIN_ID = '69b0861a864efc355b5e5440';
+        const JSONBIN_API_KEY = '$2a$10$vxYJDn7V/CKKXGCxqhQAUu4lLoVBeHtNk8xUb9iSkZyZhaOyCTeIi';
+        const JSONBIN_BASE = 'https://api.jsonbin.io/v3/b';
+        // ─────────────────────────────────────────────────────────────
+
         const emotions = ['Very Bad', 'Bad', 'Normal', 'Good', 'Fantastic'];
         const emotionEmoji = { 'Very Bad': '😤', 'Bad': '😞', 'Normal': '😐', 'Good': '😊', 'Fantastic': '🤩' };
         const emotionColors = { 'Very Bad': '#e53e3e', 'Bad': '#f6ad55', 'Normal': '#718096', 'Good': '#68d391', 'Fantastic': '#c8501a' };
 
-        function getReviews() {
-            try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch { return []; }
+        function escHtml(str) { return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+        async function getReviews() {
+            try {
+                const r = await fetch(`${JSONBIN_BASE}/${JSONBIN_BIN_ID}/latest`, {
+                    headers: { 'X-Master-Key': JSONBIN_API_KEY, 'X-Bin-Meta': 'false' }
+                });
+                const d = await r.json();
+                return Array.isArray(d) ? d : [];
+            } catch { return []; }
         }
 
-        function escHtml(str) {
-            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-        }
-
-        function renderAll() {
-            const reviews = getReviews();
+        async function renderAll() {
+            const reviews = await getReviews();
             renderKPIs(reviews);
             renderStarChart(reviews);
+            renderSentimentChart(reviews);
             renderEmotionDonut(reviews);
             renderTimeline(reviews);
-            renderEmotionAvg(reviews);
             renderTable(reviews);
         }
 
         function renderKPIs(reviews) {
-            document.getElementById('kpi-total').textContent = reviews.length;
+            document.getElementById('kpi-total').textContent = reviews.length || '0';
             if (!reviews.length) return;
             const avg = reviews.reduce((s, r) => s + r.stars, 0) / reviews.length;
-            const rounded = Math.round(avg * 10) / 10;
-            document.getElementById('kpi-avg').textContent = rounded.toFixed(1);
+            document.getElementById('kpi-avg').textContent = avg.toFixed(1);
             document.getElementById('kpi-avg-stars').textContent = '★'.repeat(Math.round(avg)) + '☆'.repeat(5 - Math.round(avg));
-            const five = reviews.filter(r => r.stars === 5).length;
-            document.getElementById('kpi-5star').textContent = five;
-            document.getElementById('kpi-5star-pct').textContent = `${Math.round(five / reviews.length * 100)}% of reviews`;
 
-            const emotionCounts = {};
-            reviews.forEach(r => emotionCounts[r.emotion] = (emotionCounts[r.emotion] || 0) + 1);
-            const topEmo = Object.entries(emotionCounts).sort((a, b) => b[1] - a[1])[0];
-            if (topEmo) {
-                document.getElementById('kpi-emotion').textContent = emotionEmoji[topEmo[0]] || '—';
-                document.getElementById('kpi-emotion-sub').textContent = `${topEmo[0]} (${topEmo[1]})`;
-            }
+            const pos = reviews.filter(r => r.sentiment === 'positive').length;
+            const neg = reviews.filter(r => r.sentiment === 'negative').length;
+            document.getElementById('kpi-pos').textContent = pos;
+            document.getElementById('kpi-pos-pct').textContent = `${Math.round(pos / reviews.length * 100)}% of reviews`;
+            document.getElementById('kpi-neg').textContent = neg;
+            document.getElementById('kpi-neg-pct').textContent = `${Math.round(neg / reviews.length * 100)}% of reviews`;
+
+            const ec = {};
+            reviews.forEach(r => ec[r.emotion] = (ec[r.emotion] || 0) + 1);
+            const top = Object.entries(ec).sort((a, b) => b[1] - a[1])[0];
+            if (top) { document.getElementById('kpi-emotion').textContent = emotionEmoji[top[0]] || '—'; document.getElementById('kpi-emotion-sub').textContent = `${top[0]} (${top[1]})`; }
         }
 
         function renderStarChart(reviews) {
             const el = document.getElementById('star-chart');
             if (!reviews.length) { el.innerHTML = '<p class="no-data-msg">No reviews yet</p>'; return; }
-            const counts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
-            reviews.forEach(r => counts[r.stars]++);
-            const max = Math.max(...Object.values(counts), 1);
+            const c = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+            reviews.forEach(r => c[r.stars]++);
+            const max = Math.max(...Object.values(c), 1);
             el.innerHTML = `<div class="star-bars">${[5, 4, 3, 2, 1].map(n => `
       <div class="star-row">
         <div class="star-row-label">${n}★</div>
-        <div class="bar-track"><div class="bar-fill" data-w="${(counts[n] / max * 100).toFixed(1)}"></div></div>
-        <div class="bar-count">${counts[n]}</div>
+        <div class="bar-track"><div class="bar-fill" data-w="${(c[n] / max * 100).toFixed(1)}"></div></div>
+        <div class="bar-count">${c[n]}</div>
       </div>`).join('')}</div>`;
-            // Animate bars
-            requestAnimationFrame(() => {
-                el.querySelectorAll('.bar-fill').forEach(b => b.style.width = b.dataset.w + '%');
-            });
+            requestAnimationFrame(() => el.querySelectorAll('.bar-fill').forEach(b => b.style.width = b.dataset.w + '%'));
+        }
+
+        function renderSentimentChart(reviews) {
+            const el = document.getElementById('sentiment-chart');
+            if (!reviews.length) { el.innerHTML = '<p class="no-data-msg">No reviews yet</p>'; return; }
+            const pos = reviews.filter(r => r.sentiment === 'positive').length;
+            const neg = reviews.filter(r => r.sentiment === 'negative').length;
+            const neu = reviews.filter(r => !r.sentiment || r.sentiment === 'neutral').length;
+            const total = reviews.length;
+            el.innerHTML = `<div class="sentiment-bars">
+      <div class="sent-row">
+        <div class="sent-header"><span class="sent-label positive">✦ Positive</span><span class="sent-count">${pos} / ${total}</span></div>
+        <div class="sent-track"><div class="sent-fill positive" data-w="${(pos / total * 100).toFixed(1)}"></div></div>
+      </div>
+      <div class="sent-row">
+        <div class="sent-header"><span class="sent-label neutral">✦ Neutral</span><span class="sent-count">${neu} / ${total}</span></div>
+        <div class="sent-track"><div class="sent-fill neutral" data-w="${(neu / total * 100).toFixed(1)}"></div></div>
+      </div>
+      <div class="sent-row">
+        <div class="sent-header"><span class="sent-label negative">✦ Negative</span><span class="sent-count">${neg} / ${total}</span></div>
+        <div class="sent-track"><div class="sent-fill negative" data-w="${(neg / total * 100).toFixed(1)}"></div></div>
+      </div>
+    </div>
+    <div style="margin-top:1.4rem;padding:1rem;background:#111;border-radius:8px;text-align:center;">
+      <div style="font-family:'Syne',sans-serif;font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:#444;margin-bottom:0.4rem;">Overall Sentiment Score</div>
+      <div style="font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:${pos > neg ? '#4ade80' : neg > pos ? '#f87171' : '#94a3b8'}">${pos > neg ? 'Positive 😊' : neg > pos ? 'Negative 😟' : 'Balanced 😐'}</div>
+    </div>`;
+            requestAnimationFrame(() => el.querySelectorAll('.sent-fill').forEach(b => b.style.width = b.dataset.w + '%'));
         }
 
         function renderEmotionDonut(reviews) {
             const el = document.getElementById('emotion-chart');
             if (!reviews.length) { el.innerHTML = '<p class="no-data-msg">No reviews yet</p>'; return; }
-
-            const counts = {};
-            emotions.forEach(e => counts[e] = 0);
-            reviews.forEach(r => { if (counts[r.emotion] !== undefined) counts[r.emotion]++; });
-
-            const total = reviews.length;
-            const R = 64, cx = 80, cy = 80, circ = 2 * Math.PI * R;
+            const c = {};
+            emotions.forEach(e => c[e] = 0);
+            reviews.forEach(r => { if (c[r.emotion] !== undefined) c[r.emotion]++; });
+            const total = reviews.length, R = 64, circ = 2 * Math.PI * R;
             let offset = 0;
-            const segments = emotions.filter(e => counts[e] > 0).map(e => {
-                const pct = counts[e] / total;
-                const dash = pct * circ;
-                const seg = { e, count: counts[e], pct, dash, offset };
-                offset += dash;
-                return seg;
+            const segs = emotions.filter(e => c[e] > 0).map(e => {
+                const pct = c[e] / total, dash = pct * circ, seg = { e, count: c[e], pct, dash, offset };
+                offset += dash; return seg;
             });
-
-            const topSeg = segments.sort((a, b) => b.count - a.count)[0];
-            const topPct = topSeg ? Math.round(topSeg.pct * 100) : 0;
-            const topLabel = topSeg ? topSeg.e : '';
-
-            el.innerHTML = `
-    <div class="donut-wrap">
+            const top = segs.slice().sort((a, b) => b.count - a.count)[0];
+            el.innerHTML = `<div class="donut-wrap">
       <div class="donut-svg-wrap">
         <svg id="donut-svg" width="160" height="160" viewBox="0 0 160 160">
           <circle cx="80" cy="80" r="${R}" fill="none" stroke="#222" stroke-width="22"/>
-          ${segments.map(s => `
-          <circle cx="80" cy="80" r="${R}" fill="none" stroke="${emotionColors[s.e]}"
-            stroke-width="22" stroke-dasharray="${s.dash.toFixed(2)} ${(circ - s.dash).toFixed(2)}"
-            stroke-dashoffset="${-s.offset.toFixed(2)}" opacity="0.85"/>
-          `).join('')}
+          ${segs.map(s => `<circle cx="80" cy="80" r="${R}" fill="none" stroke="${emotionColors[s.e]}" stroke-width="22"
+            stroke-dasharray="${s.dash.toFixed(2)} ${(circ - s.dash).toFixed(2)}"
+            stroke-dashoffset="${-s.offset.toFixed(2)}" opacity="0.85"/>`).join('')}
         </svg>
         <div class="donut-center">
-          <div class="donut-pct">${topPct}%</div>
-          <div class="donut-pct-label">${emotionEmoji[topLabel] || ''}</div>
+          <div class="donut-pct">${top ? Math.round(top.pct * 100) : 0}%</div>
+          <div class="donut-pct-label">${top ? emotionEmoji[top.e] : ''}</div>
         </div>
       </div>
       <div class="legend">
-        ${emotions.filter(e => counts[e] > 0).sort((a, b) => counts[b] - counts[a]).map(e => `
+        ${segs.sort((a, b) => b.count - a.count).map(s => `
         <div class="legend-item">
-          <div class="legend-dot" style="background:${emotionColors[e]}"></div>
-          <div class="legend-name">${emotionEmoji[e]} ${e}</div>
-          <div class="legend-val">${counts[e]}</div>
+          <div class="legend-dot" style="background:${emotionColors[s.e]}"></div>
+          <div class="legend-name">${emotionEmoji[s.e]} ${s.e}</div>
+          <div class="legend-val">${s.count}</div>
         </div>`).join('')}
       </div>
     </div>`;
@@ -667,85 +774,38 @@
         function renderTimeline(reviews) {
             const el = document.getElementById('timeline-chart');
             if (!reviews.length) { el.innerHTML = '<p class="no-data-msg">No reviews yet</p>'; return; }
-
-            // Group by date
             const byDate = {};
-            reviews.forEach(r => { byDate[r.date] = (byDate[r.date] || 0) + 1; });
-            const entries = Object.entries(byDate).slice(-10); // last 10 dates
+            reviews.forEach(r => byDate[r.date] = (byDate[r.date] || 0) + 1);
+            const entries = Object.entries(byDate).slice(-10);
             const maxVal = Math.max(...entries.map(e => e[1]), 1);
-
-            el.innerHTML = `<div class="timeline">
-      <div class="timeline-bar-row">
-        ${entries.map(([date, count]) => `
-        <div class="timeline-bar-col">
-          <div class="timeline-val">${count}</div>
-          <div class="timeline-bar" style="height:${Math.max(8, count / maxVal * 80)}px"></div>
-        </div>`).join('')}
-      </div>
-      <div style="display:flex;gap:0.5rem;">
-        ${entries.map(([date]) => `
-        <div class="timeline-label" style="flex:1">${date.replace(/\s\d{4}/, '')}</div>`).join('')}
-      </div>
-    </div>`;
-        }
-
-        function renderEmotionAvg(reviews) {
-            const el = document.getElementById('emotion-avg-chart');
-            if (!reviews.length) { el.innerHTML = '<p class="no-data-msg">No reviews yet</p>'; return; }
-
-            const sums = {};
-            const cnts = {};
-            reviews.forEach(r => {
-                sums[r.emotion] = (sums[r.emotion] || 0) + r.stars;
-                cnts[r.emotion] = (cnts[r.emotion] || 0) + 1;
-            });
-            const avgs = Object.entries(sums).map(([e, s]) => ({ e, avg: s / cnts[e] })).sort((a, b) => b.avg - a.avg);
-
-            el.innerHTML = `<div class="star-bars">${avgs.map(({ e, avg }) => `
-      <div class="star-row">
-        <div class="star-row-label" style="font-size:1.1rem;min-width:28px">${emotionEmoji[e]}</div>
-        <div class="bar-track"><div class="bar-fill" data-w="${(avg / 5 * 100).toFixed(1)}" style="background:linear-gradient(90deg,${emotionColors[e]},#f5a623)"></div></div>
-        <div class="bar-count" style="color:#888;font-size:0.78rem">${avg.toFixed(1)}★</div>
-      </div>`).join('')}</div>`;
-            requestAnimationFrame(() => {
-                el.querySelectorAll('.bar-fill').forEach(b => b.style.width = b.dataset.w + '%');
-            });
+            el.innerHTML = `<div class="timeline-bar-row">${entries.map(([date, count]) => `
+      <div class="timeline-bar-col">
+        <div class="timeline-val">${count}</div>
+        <div class="timeline-bar" style="height:${Math.max(8, count / maxVal * 80)}px"></div>
+      </div>`).join('')}</div>
+    <div style="display:flex;gap:0.5rem;">${entries.map(([date]) => `
+      <div class="timeline-label" style="flex:1">${date.replace(/\s\d{4}/, '')}</div>`).join('')}</div>`;
         }
 
         function renderTable(reviews) {
             const el = document.getElementById('reviews-table');
             if (!reviews.length) { el.innerHTML = '<p class="no-data-msg">No reviews yet</p>'; return; }
-            el.innerHTML = `
-    <table>
-      <thead>
-        <tr>
-          <th>Reviewer</th>
-          <th>Rating</th>
-          <th>Feeling</th>
-          <th>Review</th>
-          <th>Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${reviews.map(r => `
-        <tr>
-          <td class="td-name">${escHtml(r.name)}</td>
-          <td class="td-stars">${'★'.repeat(r.stars)}${'☆'.repeat(5 - r.stars)}</td>
-          <td>
-            <span class="emotion-pill" style="background:${emotionColors[r.emotion]}22;color:${emotionColors[r.emotion]};border:1px solid ${emotionColors[r.emotion]}44">
-              ${emotionEmoji[r.emotion]} ${r.emotion}
-            </span>
-          </td>
-          <td class="td-review">${escHtml(r.text)}</td>
-          <td>${r.date}</td>
-        </tr>`).join('')}
-      </tbody>
-    </table>`;
+            el.innerHTML = `<table>
+      <thead><tr><th>Reviewer</th><th>Rating</th><th>Feeling</th><th>Sentiment</th><th>Review</th><th>Date</th></tr></thead>
+      <tbody>${reviews.map(r => `
+      <tr>
+        <td class="td-name">${escHtml(r.name)}</td>
+        <td class="td-stars">${'★'.repeat(r.stars)}${'☆'.repeat(5 - r.stars)}</td>
+        <td><span class="emotion-pill" style="background:${emotionColors[r.emotion]}22;color:${emotionColors[r.emotion]};border:1px solid ${emotionColors[r.emotion]}44">${emotionEmoji[r.emotion]} ${r.emotion}</span></td>
+        <td><span class="sent-pill ${r.sentiment || 'neutral'}">${r.sentiment === 'positive' ? '✦ Positive' : r.sentiment === 'negative' ? '✦ Negative' : '✦ Neutral'}</span></td>
+        <td class="td-review">${escHtml(r.text)}</td>
+        <td>${r.date}</td>
+      </tr>`).join('')}
+      </tbody></table>`;
         }
 
         renderAll();
-        // Auto-refresh every 10s
-        setInterval(renderAll, 10000);
+        setInterval(renderAll, 15000);
     </script>
 </body>
 
