@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ARCUS PRO — Analytics</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --ink: #0d0d0d;
+            --paper: #f5f2ec;
+            --cream: #ede9df;
+            --accent: #c8501a;
+            --accent2: #2a6496;
+            --green: #2a7a4b;
+            --muted: #8a8278;
+            --card: #ffffff;
+            --border: #d9d3c7;
+        }
+
+        body {
+            background: var(--ink);
+            color: var(--paper);
+            font-family: 'DM Sans', sans-serif;
+            min-height: 100vh;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 4rem;
+            border-bottom: 1px solid #2a2a2a;
+            background: #111;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.4rem;
+            letter-spacing: 0.15em;
+            color: var(--paper);
+            text-transform: uppercase;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        nav a {
+            font-family: 'Syne', sans-serif;
+            font-weight: 600;
+            font-size: 0.8rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #666;
+            text-decoration: none;
+            margin-left: 2rem;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        nav a.active {
+            color: var(--paper);
+        }
+
+        .dashboard {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 4rem 5rem;
+        }
+
+        .dash-header {
+            margin-bottom: 3rem;
+        }
+
+        .dash-eyebrow {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.6rem;
+        }
+
+        .dash-title {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2rem, 3.5vw, 3rem);
+            font-weight: 800;
+            color: var(--paper);
+            line-height: 1.05;
+        }
+
+        .dash-sub {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        /* KPI CARDS */
+        .kpi-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.2rem;
+            margin-bottom: 2.4rem;
+        }
+
+        .kpi-card {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 14px;
+            padding: 1.4rem 1.6rem;
+        }
+
+        .kpi-label {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: #555;
+            margin-bottom: 0.7rem;
+        }
+
+        .kpi-value {
+            font-family: 'Syne', sans-serif;
+            font-size: 2.4rem;
+            font-weight: 800;
+            line-height: 1;
+            color: var(--paper);
+        }
+
+        .kpi-sub {
+            font-size: 0.75rem;
+            color: #555;
+            margin-top: 0.4rem;
+        }
+
+        .kpi-accent {
+            color: var(--accent);
+        }
+
+        .kpi-green {
+            color: #4ade80;
+        }
+
+        /* GRID LAYOUT */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.4rem;
+            margin-bottom: 1.4rem;
+        }
+
+        .chart-card {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 14px;
+            padding: 1.8rem;
+        }
+
+        .chart-card.wide {
+            grid-column: span 2;
+        }
+
+        .chart-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #888;
+            margin-bottom: 1.4rem;
+        }
+
+        .no-data-msg {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #444;
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        /* STAR BAR CHART */
+        .star-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .star-row {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .star-row-label {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #f5a623;
+            min-width: 28px;
+            text-align: right;
+        }
+
+        .bar-track {
+            flex: 1;
+            height: 10px;
+            background: #2a2a2a;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 6px;
+            background: linear-gradient(90deg, var(--accent), #f5a623);
+            transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            width: 0%;
+        }
+
+        .bar-count {
+            font-size: 0.75rem;
+            color: #555;
+            min-width: 28px;
+        }
+
+        /* EMOTION DONUT */
+        .donut-wrap {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .donut-svg-wrap {
+            flex-shrink: 0;
+            width: 160px;
+            height: 160px;
+            position: relative;
+        }
+
+        #donut-svg {
+            transform: rotate(-90deg);
+        }
+
+        .donut-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .donut-pct {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--paper);
+            line-height: 1;
+        }
+
+        .donut-pct-label {
+            font-size: 0.65rem;
+            color: #555;
+            margin-top: 0.2rem;
+        }
+
+        .legend {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            flex: 1;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .legend-name {
+            font-size: 0.8rem;
+            color: #aaa;
+            flex: 1;
+        }
+
+        .legend-val {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--paper);
+        }
+
+        /* REVIEWS TABLE */
+        .reviews-table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead th {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #444;
+            text-align: left;
+            padding: 0.6rem 0.8rem;
+            border-bottom: 1px solid #222;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #1f1f1f;
+            transition: background 0.15s;
+        }
+
+        tbody tr:hover {
+            background: #222;
+        }
+
+        tbody td {
+            padding: 0.9rem 0.8rem;
+            font-size: 0.85rem;
+            color: #bbb;
+        }
+
+        .td-name {
+            font-weight: 500;
+            color: var(--paper);
+        }
+
+        .td-stars {
+            color: #f5a623;
+            letter-spacing: 0.04em;
+        }
+
+        .emotion-pill {
+            display: inline-block;
+            padding: 0.15rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            font-family: 'Syne', sans-serif;
+            letter-spacing: 0.05em;
+        }
+
+        .td-review {
+            max-width: 280px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* TREND TIMELINE */
+        .timeline {
+            padding: 0.5rem 0;
+        }
+
+        .timeline-bar-row {
+            display: flex;
+            align-items: flex-end;
+            gap: 0.5rem;
+            height: 100px;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-bar-col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 0.3rem;
+        }
+
+        .timeline-bar {
+            width: 100%;
+            max-width: 40px;
+            border-radius: 4px 4px 0 0;
+            background: linear-gradient(180deg, var(--accent), #8a2800);
+            min-height: 4px;
+            transition: height 0.6s ease;
+        }
+
+        .timeline-label {
+            font-size: 0.6rem;
+            color: #444;
+            text-align: center;
+        }
+
+        .timeline-val {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: #666;
+        }
+
+        .refresh-btn {
+            float: right;
+            background: none;
+            border: 1px solid #333;
+            color: #555;
+            font-family: 'Syne', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 0.35rem 0.8rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .refresh-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        @media (max-width: 900px) {
+            header {
+                padding: 1.2rem 1.5rem;
+            }
+
+            .dashboard {
+                padding: 2rem 1.5rem 4rem;
+            }
+
+            .kpi-row {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-card.wide {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">Arc<span>us</span></div>
+        <nav>
+            <a href="index.html">Product</a>
+            <a href="dashboard.html" class="active">Analytics</a>
+        </nav>
+    </header>
+
+    <div class="dashboard">
+        <div class="dash-header">
+            <p class="dash-eyebrow">Review Analytics</p>
+            <h1 class="dash-title">Arcus Pro — Insights</h1>
+            <p class="dash-sub">Live data from customer reviews · Updates automatically</p>
+        </div>
+
+        <!-- KPIs -->
+        <div class="kpi-row">
+            <div class="kpi-card">
+                <div class="kpi-label">Total Reviews</div>
+                <div class="kpi-value" id="kpi-total">0</div>
+                <div class="kpi-sub">All time</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Average Rating</div>
+                <div class="kpi-value kpi-accent" id="kpi-avg">—</div>
+                <div class="kpi-sub" id="kpi-avg-stars">No reviews yet</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">5-Star Reviews</div>
+                <div class="kpi-value kpi-green" id="kpi-5star">0</div>
+                <div class="kpi-sub" id="kpi-5star-pct">—</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Top Feeling</div>
+                <div class="kpi-value" id="kpi-emotion" style="font-size:2rem">—</div>
+                <div class="kpi-sub" id="kpi-emotion-sub">No data</div>
+            </div>
+        </div>
+
+        <div class="charts-grid">
+            <!-- STAR DISTRIBUTION -->
+            <div class="chart-card">
+                <div class="chart-title">Rating Distribution <button class="refresh-btn" onclick="renderAll()">↻
+                        Refresh</button></div>
+                <div id="star-chart">
+                    <p class="no-data-msg">No reviews yet</p>
+                </div>
+            </div>
+
+            <!-- EMOTION DONUT -->
+            <div class="chart-card">
+                <div class="chart-title">Sentiment Breakdown</div>
+                <div id="emotion-chart">
+                    <p class="no-data-msg">No reviews yet</p>
+                </div>
+            </div>
+
+            <!-- TIMELINE -->
+            <div class="chart-card">
+                <div class="chart-title">Reviews Timeline</div>
+                <div id="timeline-chart">
+                    <p class="no-data-msg">No reviews yet</p>
+                </div>
+            </div>
+
+            <!-- AVG BY EMOTION -->
+            <div class="chart-card">
+                <div class="chart-title">Avg Rating by Feeling</div>
+                <div id="emotion-avg-chart">
+                    <p class="no-data-msg">No reviews yet</p>
+                </div>
+            </div>
+
+            <!-- REVIEWS TABLE -->
+            <div class="chart-card wide">
+                <div class="chart-title">All Reviews</div>
+                <div class="reviews-table-wrap" id="reviews-table">
+                    <p class="no-data-msg">No reviews yet</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const STORAGE_KEY = 'arcus_pro_reviews';
+        const emotions = ['Very Bad', 'Bad', 'Normal', 'Good', 'Fantastic'];
+        const emotionEmoji = { 'Very Bad': '😤', 'Bad': '😞', 'Normal': '😐', 'Good': '😊', 'Fantastic': '🤩' };
+        const emotionColors = { 'Very Bad': '#e53e3e', 'Bad': '#f6ad55', 'Normal': '#718096', 'Good': '#68d391', 'Fantastic': '#c8501a' };
+
+        function getReviews() {
+            try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch { return []; }
+        }
+
+        function escHtml(str) {
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        function renderAll() {
+            const reviews = getReviews();
+            renderKPIs(reviews);
+            renderStarChart(reviews);
+            renderEmotionDonut(reviews);
+            renderTimeline(reviews);
+            renderEmotionAvg(reviews);
+            renderTable(reviews);
+        }
+
+        function renderKPIs(reviews) {
+            document.getElementById('kpi-total').textContent = reviews.length;
+            if (!reviews.length) return;
+            const avg = reviews.reduce((s, r) => s + r.stars, 0) / reviews.length;
+            const rounded = Math.round(avg * 10) / 10;
+            document.getElementById('kpi-avg').textContent = rounded.toFixed(1);
+            document.getElementById('kpi-avg-stars').textContent = '★'.repeat(Math.round(avg)) + '☆'.repeat(5 - Math.round(avg));
+            const five = reviews.filter(r => r.stars === 5).length;
+            document.getElementById('kpi-5star').textContent = five;
+            document.getElementById('kpi-5star-pct').textContent = `${Math.round(five / reviews.length * 100)}% of reviews`;
+
+            const emotionCounts = {};
+            reviews.forEach(r => emotionCounts[r.emotion] = (emotionCounts[r.emotion] || 0) + 1);
+            const topEmo = Object.entries(emotionCounts).sort((a, b) => b[1] - a[1])[0];
+            if (topEmo) {
+                document.getElementById('kpi-emotion').textContent = emotionEmoji[topEmo[0]] || '—';
+                document.getElementById('kpi-emotion-sub').textContent = `${topEmo[0]} (${topEmo[1]})`;
+            }
+        }
+
+        function renderStarChart(reviews) {
+            const el = document.getElementById('star-chart');
+            if (!reviews.length) { el.innerHTML = '<p class="no-data-msg">No reviews yet</p>'; return; }
+            const counts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+            reviews.forEach(r => counts[r.stars]++);
+            const max = Math.max(...Object.values(counts), 1);
+            el.innerHTML = `<div class="star-bars">${[5, 4, 3, 2, 1].map(n => `
+      <div class="star-row">
+        <div class="star-row-label">${n}★</div>
+        <div class="bar-track"><div class="bar-fill" data-w="${(counts[n] / max * 100).toFixed(1)}"></div></div>
+        <div class="bar-count">${counts[n]}</div>
+      </div>`).join('')}</div>`;
+            // Animate bars
+            requestAnimationFrame(() => {
+                el.querySelectorAll('.bar-fill').forEach(b => b.style.width = b.dataset.w + '%');
+            });
+        }
+
+        function renderEmotionDonut(reviews) {
+            const el = document.getElementById('emotion-chart');
+            if (!reviews.length) { el.innerHTML = '<p class="no-data-msg">No reviews yet</p>'; return; }
+
+            const counts = {};
+            emotions.forEach(e => counts[e] = 0);
+            reviews.forEach(r => { if (counts[r.emotion] !== undefined) counts[r.emotion]++; });
+
+            const total = reviews.length;
+            const R = 64, cx = 80, cy = 80, circ = 2 * Math.PI * R;
+            let offset = 0;
+            const segments = emotions.filter(e => counts[e] > 0).map(e => {
+                const pct = counts[e] / total;
+                const dash = pct * circ;
+                const seg = { e, count: counts[e], pct, dash, offset };
+                offset += dash;
+                return seg;
+            });
+
+            const topSeg = segments.sort((a, b) => b.count - a.count)[0];
+            const topPct = topSeg ? Math.round(topSeg.pct * 100) : 0;
+            const topLabel = topSeg ? topSeg.e : '';
+
+            el.innerHTML = `
+    <div class="donut-wrap">
+      <div class="donut-svg-wrap">
+        <svg id="donut-svg" width="160" height="160" viewBox="0 0 160 160">
+          <circle cx="80" cy="80" r="${R}" fill="none" stroke="#222" stroke-width="22"/>
+          ${segments.map(s => `
+          <circle cx="80" cy="80" r="${R}" fill="none" stroke="${emotionColors[s.e]}"
+            stroke-width="22" stroke-dasharray="${s.dash.toFixed(2)} ${(circ - s.dash).toFixed(2)}"
+            stroke-dashoffset="${-s.offset.toFixed(2)}" opacity="0.85"/>
+          `).join('')}
+        </svg>
+        <div class="donut-center">
+          <div class="donut-pct">${topPct}%</div>
+          <div class="donut-pct-label">${emotionEmoji[topLabel] || ''}</div>
+        </div>
+      </div>
+      <div class="legend">
+        ${emotions.filter(e => counts[e] > 0).sort((a, b) => counts[b] - counts[a]).map(e => `
+        <div class="legend-item">
+          <div class="legend-dot" style="background:${emotionColors[e]}"></div>
+          <div class="legend-name">${emotionEmoji[e]} ${e}</div>
+          <div class="legend-val">${counts[e]}</div>
+        </div>`).join('')}
+      </div>
+    </div>`;
+        }
+
+        function renderTimeline(reviews) {
+            const el = document.getElementById('timeline-chart');
+            if (!reviews.length) { el.innerHTML = '<p class="no-data-msg">No reviews yet</p>'; return; }
+
+            // Group by date
+            const byDate = {};
+            reviews.forEach(r => { byDate[r.date] = (byDate[r.date] || 0) + 1; });
+            const entries = Object.entries(byDate).slice(-10); // last 10 dates
+            const maxVal = Math.max(...entries.map(e => e[1]), 1);
+
+            el.innerHTML = `<div class="timeline">
+      <div class="timeline-bar-row">
+        ${entries.map(([date, count]) => `
+        <div class="timeline-bar-col">
+          <div class="timeline-val">${count}</div>
+          <div class="timeline-bar" style="height:${Math.max(8, count / maxVal * 80)}px"></div>
+        </div>`).join('')}
+      </div>
+      <div style="display:flex;gap:0.5rem;">
+        ${entries.map(([date]) => `
+        <div class="timeline-label" style="flex:1">${date.replace(/\s\d{4}/, '')}</div>`).join('')}
+      </div>
+    </div>`;
+        }
+
+        function renderEmotionAvg(reviews) {
+            const el = document.getElementById('emotion-avg-chart');
+            if (!reviews.length) { el.innerHTML = '<p class="no-data-msg">No reviews yet</p>'; return; }
+
+            const sums = {};
+            const cnts = {};
+            reviews.forEach(r => {
+                sums[r.emotion] = (sums[r.emotion] || 0) + r.stars;
+                cnts[r.emotion] = (cnts[r.emotion] || 0) + 1;
+            });
+            const avgs = Object.entries(sums).map(([e, s]) => ({ e, avg: s / cnts[e] })).sort((a, b) => b.avg - a.avg);
+
+            el.innerHTML = `<div class="star-bars">${avgs.map(({ e, avg }) => `
+      <div class="star-row">
+        <div class="star-row-label" style="font-size:1.1rem;min-width:28px">${emotionEmoji[e]}</div>
+        <div class="bar-track"><div class="bar-fill" data-w="${(avg / 5 * 100).toFixed(1)}" style="background:linear-gradient(90deg,${emotionColors[e]},#f5a623)"></div></div>
+        <div class="bar-count" style="color:#888;font-size:0.78rem">${avg.toFixed(1)}★</div>
+      </div>`).join('')}</div>`;
+            requestAnimationFrame(() => {
+                el.querySelectorAll('.bar-fill').forEach(b => b.style.width = b.dataset.w + '%');
+            });
+        }
+
+        function renderTable(reviews) {
+            const el = document.getElementById('reviews-table');
+            if (!reviews.length) { el.innerHTML = '<p class="no-data-msg">No reviews yet</p>'; return; }
+            el.innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>Reviewer</th>
+          <th>Rating</th>
+          <th>Feeling</th>
+          <th>Review</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${reviews.map(r => `
+        <tr>
+          <td class="td-name">${escHtml(r.name)}</td>
+          <td class="td-stars">${'★'.repeat(r.stars)}${'☆'.repeat(5 - r.stars)}</td>
+          <td>
+            <span class="emotion-pill" style="background:${emotionColors[r.emotion]}22;color:${emotionColors[r.emotion]};border:1px solid ${emotionColors[r.emotion]}44">
+              ${emotionEmoji[r.emotion]} ${r.emotion}
+            </span>
+          </td>
+          <td class="td-review">${escHtml(r.text)}</td>
+          <td>${r.date}</td>
+        </tr>`).join('')}
+      </tbody>
+    </table>`;
+        }
+
+        renderAll();
+        // Auto-refresh every 10s
+        setInterval(renderAll, 10000);
+    </script>
+</body>
+
+</html>
