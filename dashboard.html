@@ -657,7 +657,7 @@
                     headers: { 'X-Master-Key': JSONBIN_API_KEY, 'X-Bin-Meta': 'false' }
                 });
                 const d = await r.json();
-                return Array.isArray(d) ? d : [];
+                return Array.isArray(d.reviews) ? d.reviews : [];
             } catch { return []; }
         }
 
