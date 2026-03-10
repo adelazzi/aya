@@ -616,7 +616,7 @@
             </div>
 
             <div class="chart-card">
-                <div class="chart-title">Emotion Breakdown</div>
+                <div class="chart-title">Positive vs Negative</div>
                 <div id="emotion-chart">
                     <p class="no-data-msg">Loading…</p>
                 </div>
@@ -641,7 +641,7 @@
     <script>
         // ─── CONFIG — must match index.html ──────────────────────────
         const JSONBIN_BIN_ID = '69b0861a864efc355b5e5440';
-        const JSONBIN_API_KEY = '$2a$10$vxYJDn7V/CKKXGCxqhQAUu4lLoVBeHtNk8xUb9iSkZyZhaOyCTeIi';
+        const JSONBIN_API_KEY = 'YOUR_API_KEY_HERE';
         const JSONBIN_BASE = 'https://api.jsonbin.io/v3/b';
         // ─────────────────────────────────────────────────────────────
 
@@ -737,38 +737,53 @@
         function renderEmotionDonut(reviews) {
             const el = document.getElementById('emotion-chart');
             if (!reviews.length) { el.innerHTML = '<p class="no-data-msg">No reviews yet</p>'; return; }
-            const c = {};
-            emotions.forEach(e => c[e] = 0);
-            reviews.forEach(r => { if (c[r.emotion] !== undefined) c[r.emotion]++; });
-            const total = reviews.length, R = 64, circ = 2 * Math.PI * R;
-            let offset = 0;
-            const segs = emotions.filter(e => c[e] > 0).map(e => {
-                const pct = c[e] / total, dash = pct * circ, seg = { e, count: c[e], pct, dash, offset };
-                offset += dash; return seg;
-            });
-            const top = segs.slice().sort((a, b) => b.count - a.count)[0];
-            el.innerHTML = `<div class="donut-wrap">
-      <div class="donut-svg-wrap">
-        <svg id="donut-svg" width="160" height="160" viewBox="0 0 160 160">
-          <circle cx="80" cy="80" r="${R}" fill="none" stroke="#222" stroke-width="22"/>
-          ${segs.map(s => `<circle cx="80" cy="80" r="${R}" fill="none" stroke="${emotionColors[s.e]}" stroke-width="22"
-            stroke-dasharray="${s.dash.toFixed(2)} ${(circ - s.dash).toFixed(2)}"
-            stroke-dashoffset="${-s.offset.toFixed(2)}" opacity="0.85"/>`).join('')}
-        </svg>
-        <div class="donut-center">
-          <div class="donut-pct">${top ? Math.round(top.pct * 100) : 0}%</div>
-          <div class="donut-pct-label">${top ? emotionEmoji[top.e] : ''}</div>
+
+            const pos = reviews.filter(r => r.sentiment === 'positive').length;
+            const neg = reviews.filter(r => r.sentiment === 'negative').length;
+            const neu = reviews.filter(r => !r.sentiment || r.sentiment === 'neutral').length;
+            const total = reviews.length;
+
+            const posPct = Math.round(pos / total * 100);
+            const negPct = Math.round(neg / total * 100);
+            const neuPct = 100 - posPct - negPct;
+
+            // Big split bar
+            el.innerHTML = `
+      <div style="display:flex;flex-direction:column;gap:1.4rem;">
+
+        <!-- Split bar -->
+        <div style="height:28px;border-radius:14px;overflow:hidden;display:flex;gap:2px;background:#111;">
+          ${pos > 0 ? `<div style="flex:${pos};background:linear-gradient(90deg,#16a34a,#4ade80);border-radius:14px 0 0 14px;transition:flex 0.8s ease;"></div>` : ''}
+          ${neu > 0 ? `<div style="flex:${neu};background:linear-gradient(90deg,#334155,#94a3b8);"></div>` : ''}
+          ${neg > 0 ? `<div style="flex:${neg};background:linear-gradient(90deg,#b91c1c,#f87171);border-radius:0 14px 14px 0;"></div>` : ''}
         </div>
-      </div>
-      <div class="legend">
-        ${segs.sort((a, b) => b.count - a.count).map(s => `
-        <div class="legend-item">
-          <div class="legend-dot" style="background:${emotionColors[s.e]}"></div>
-          <div class="legend-name">${emotionEmoji[s.e]} ${s.e}</div>
-          <div class="legend-val">${s.count}</div>
-        </div>`).join('')}
-      </div>
-    </div>`;
+
+        <!-- Stats row -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.8rem;text-align:center;">
+          <div style="background:#0d1f12;border:1px solid #1a3a20;border-radius:10px;padding:1rem 0.5rem;">
+            <div style="font-size:1.8rem;font-family:'Syne',sans-serif;font-weight:800;color:#4ade80;">${posPct}%</div>
+            <div style="font-size:0.68rem;font-family:'Syne',sans-serif;font-weight:700;letter-spacing:0.12em;color:#2a6b3a;margin-top:0.3rem;">POSITIVE</div>
+            <div style="font-size:0.75rem;color:#555;margin-top:0.2rem;">${pos} review${pos !== 1 ? 's' : ''}</div>
+          </div>
+          <div style="background:#111;border:1px solid #222;border-radius:10px;padding:1rem 0.5rem;">
+            <div style="font-size:1.8rem;font-family:'Syne',sans-serif;font-weight:800;color:#94a3b8;">${neuPct}%</div>
+            <div style="font-size:0.68rem;font-family:'Syne',sans-serif;font-weight:700;letter-spacing:0.12em;color:#475569;margin-top:0.3rem;">NEUTRAL</div>
+            <div style="font-size:0.75rem;color:#555;margin-top:0.2rem;">${neu} review${neu !== 1 ? 's' : ''}</div>
+          </div>
+          <div style="background:#1f0d0d;border:1px solid #3a1a1a;border-radius:10px;padding:1rem 0.5rem;">
+            <div style="font-size:1.8rem;font-family:'Syne',sans-serif;font-weight:800;color:#f87171;">${negPct}%</div>
+            <div style="font-size:0.68rem;font-family:'Syne',sans-serif;font-weight:700;letter-spacing:0.12em;color:#6b2a2a;margin-top:0.3rem;">NEGATIVE</div>
+            <div style="font-size:0.75rem;color:#555;margin-top:0.2rem;">${neg} review${neg !== 1 ? 's' : ''}</div>
+          </div>
+        </div>
+
+        <!-- Verdict -->
+        <div style="text-align:center;padding:0.8rem;background:#111;border-radius:8px;border:1px solid #222;">
+          <span style="font-family:'Syne',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:${pos > neg ? '#4ade80' : neg > pos ? '#f87171' : '#94a3b8'}">
+            ${pos > neg ? '😊 Mostly Positive' : neg > pos ? '😟 Mostly Negative' : '😐 Mixed Reception'}
+          </span>
+        </div>
+      </div>`;
         }
 
         function renderTimeline(reviews) {
